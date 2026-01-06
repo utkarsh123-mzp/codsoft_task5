@@ -1,0 +1,97 @@
+# CODSOFT Python Programming Internship
+# Task 5: Contact Book Application
+# Submitted by: [UTKARSH UPADHYAY]
+
+def show_menu():
+    print("\n--- 📱 CONTACT BOOK MENU ---")
+    print("1. Add New Contact")
+    print("2. View Contact List")
+    print("3. Search Contact")
+    print("4. Update Contact")
+    print("5. Delete Contact")
+    print("6. Exit")
+    print("-" * 25)
+
+def main():
+    # Dictionary to store contact information 
+    # Key: Name, Value: {Phone, Email, Address}
+    contacts = {}
+    
+    print("Welcome to your Personal Contact Book!")
+
+    while True:
+        show_menu()
+        choice = input("Select an option (1-6): ").strip()
+
+        # 1. Add Contact [cite: 68]
+        if choice == '1':
+            name = input("Enter Name: ").strip()
+            if name in contacts:
+                print("⚠️ Contact already exists!")
+            else:
+                phone = input("Enter Phone Number: ").strip()
+                email = input("Enter Email: ").strip()
+                address = input("Enter Address: ").strip()
+                contacts[name] = {"phone": phone, "email": email, "address": address}
+                print(f"✅ Contact '{name}' added successfully!")
+
+        # 2. View Contact List [cite: 69]
+        elif choice == '2':
+            if not contacts:
+                print("📭 Your contact list is empty.")
+            else:
+                print("\n--- CONTACT LIST ---")
+                print(f"{'Name':<15} | {'Phone Number'}")
+                print("-" * 30)
+                for name, info in contacts.items():
+                    print(f"{name:<15} | {info['phone']}")
+
+        # 3. Search Contact 
+        elif choice == '3':
+            search = input("Enter Name or Phone Number to search: ").strip()
+            found = False
+            for name, info in contacts.items():
+                if search.lower() in name.lower() or search == info['phone']:
+                    print(f"\n🔍 Contact Found:")
+                    print(f"Name   : {name}")
+                    print(f"Phone  : {info['phone']}")
+                    print(f"Email  : {info['email']}")
+                    print(f"Address: {info['address']}")
+                    found = True
+            if not found:
+                print("❌ No contact found with those details.")
+
+        # 4. Update Contact [cite: 71]
+        elif choice == '4':
+            name = input("Enter the name of the contact to update: ").strip()
+            if name in contacts:
+                print("Leave blank to keep existing information.")
+                new_phone = input(f"New Phone ({contacts[name]['phone']}): ").strip()
+                new_email = input(f"New Email ({contacts[name]['email']}): ").strip()
+                new_address = input(f"New Address ({contacts[name]['address']}): ").strip()
+
+                if new_phone: contacts[name]['phone'] = new_phone
+                if new_email: contacts[name]['email'] = new_email
+                if new_address: contacts[name]['address'] = new_address
+                print("✅ Contact updated successfully!")
+            else:
+                print("❌ Contact not found.")
+
+        # 5. Delete Contact [cite: 72]
+        elif choice == '5':
+            name = input("Enter the name of the contact to delete: ").strip()
+            if name in contacts:
+                contacts.pop(name)
+                print(f"🗑️ Contact '{name}' deleted.")
+            else:
+                print("❌ Contact not found.")
+
+        # 6. Exit
+        elif choice == '6':
+            print("Exiting Contact Book. Goodbye!")
+            break
+        else:
+            print("❌ Invalid choice. Please select 1-6.")
+
+if __name__ == "__main__":
+    main()
